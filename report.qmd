@@ -145,7 +145,7 @@ head(ev_reg)
 ## **Part 3: Joining / Pivoting Datasets for Analysis**
 
 ```{r}
-# Helper to pivot total energy for a given year
+#Helper to pivot total energy for a given year
 pivot_total_year <- function(df, year) {
   df |>
     pivot_longer(
@@ -157,7 +157,7 @@ pivot_total_year <- function(df, year) {
     mutate(Year = year)
 }
 
-# 1) Reshape total energy and combine years
+#Reshape total energy and combine years
 total_all <- bind_rows(
   pivot_total_year(total_21, 2021),
   pivot_total_year(total_22, 2022),
@@ -173,7 +173,7 @@ total_wide <- total_all |>
 
 head(total_wide)
 
-# 2) Combine renewable detail and compute yearly totals
+#Combine renewable detail and compute yearly totals
 renew_21a <- renew_21 |> mutate(Year = 2021) |> rename(Renewable_Use = 3)
 renew_22a <- renew_22 |> mutate(Year = 2022) |> rename(Renewable_Use = 3)
 renew_23a <- renew_23 |> mutate(Year = 2023) |> rename(Renewable_Use = 3)
@@ -189,7 +189,7 @@ renew_by_state <- renew_all |>
 
 head(renew_by_state)
 
-# 3) Join totals with renewables and compute renewable share
+#Join totals with renewables and compute renewable share
 energy_combined <- total_wide |>
   left_join(renew_by_state, by = c("State", "Year")) |>
   mutate(
@@ -208,7 +208,7 @@ energy_combined <- total_wide |>
 
 head(energy_combined)
 
-# 4) Add energy prices (pivot to long and join)
+#Add energy prices (pivot to long and join)
 energy_price_long <- energy_price |>
   pivot_longer(
     cols = starts_with("price_"),
@@ -221,13 +221,13 @@ energy_price_long <- energy_price |>
 energy_combined <- energy_combined |>
   left_join(energy_price_long, by = c("State", "Year"))
 
-# 5) Add EV registrations (2023 only)
+#Add EV registrations (2023 only)
 energy_combined <- energy_combined |>
   left_join(ev_reg |> rename(EV_Count_2023 = EV_Count), by = "State") |>
   mutate(EV_Count = if_else(Year == 2023, EV_Count_2023, NA_real_)) |>
   select(-EV_Count_2023)
 
-# 6) Define regions
+#Define regions
 midwest_states <- c(
   "IL",
   "IN",
@@ -255,7 +255,7 @@ energy_combined <- energy_combined |>
 
 head(energy_combined)
 
-# 7) Region-year summary for the research question
+#Region-year summary for the research question
 region_summary <- energy_combined |>
   filter(Region %in% c("Midwest", "West Coast")) |>
   group_by(Region, Year) |>
