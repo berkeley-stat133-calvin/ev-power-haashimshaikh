@@ -1,24 +1,24 @@
 State,Energy_Source,Renewable_Use_2023
-AK,Biomass,3404 kWh
-AK,Geothermal,186.0
+AK,Biomass,3404
+AK,Geothermal,186
 AK,Hydropower,6051
 AK,Solar Energy,67
 AK,Wind Energy,380
-AL,Biomass,189040 kWh
-AL,Geothermal,141.0
+AL,Biomass,189040
+AL,Geothermal,141
 AL,Hydropower,28762
 AL,Solar Energy,4246
 AL,Wind Energy,0
-Ar,Biomass,71311
-Ar,Geothermal,808 MWh
-Ar,Hydropower,11017
-Ar,Solar Energy,4141
-Ar,Wind Energy,0
-az,Biomass,36572
-az,Geothermal,345
-az,Hydropower,20258
-az,Solar Energy,45356
-az,Wind Energy,5914
+AR,Biomass,71311
+AR,Geothermal,808
+AR,Hydropower,11017
+AR,Solar Energy,4141
+AR,Wind Energy,0
+AZ,Biomass,36572
+AZ,Geothermal,345
+AZ,Hydropower,20258
+AZ,Solar Energy,45356
+AZ,Wind Energy,5914
 CA,Biomass,612607
 CA,Geothermal,40578
 CA,Hydropower,110485
@@ -26,14 +26,14 @@ CA,Solar Energy,253676
 CA,Wind Energy,47833
 CO,Biomass,35513
 CO,Geothermal,759
-CO,Hydropower,5447 MWh
+CO,Hydropower,5447
 CO,Solar Energy,18440
 CO,Wind Energy,54903
-ct,Biomass,40711
-ct,Geothermal,21.0
-ct,Hydropower,1588
-ct,Solar Energy,6629
-ct,Wind Energy,34
+CT,Biomass,40711
+CT,Geothermal,21
+CT,Hydropower,1588
+CT,Solar Energy,6629
+CT,Wind Energy,34
 DC,Biomass,1984
 DC,Geothermal,22
 DC,Hydropower,0
@@ -44,22 +44,22 @@ DE,Geothermal,430
 DE,Hydropower,0
 DE,Solar Energy,1213
 DE,Wind Energy,14
-fl,Biomass,187267
-fl,Geothermal,10056
-fl,Hydropower,765
-fl,Solar Energy,88219
-fl,Wind Energy,0
+FL,Biomass,187267
+FL,Geothermal,10056
+FL,Hydropower,765
+FL,Solar Energy,88219
+FL,Wind Energy,0
 GA,Biomass,253485
 GA,Geothermal,315
 GA,Hydropower,9799
 GA,Solar Energy,27863
 GA,Wind Energy,0
-hi,Biomass,8914
-hi,Geothermal,665
-hi,Hydropower,318
-hi,Solar Energy,8985
-hi,Wind Energy,2164
-IA,Biomass,265747 kWh
+HI,Biomass,8914
+HI,Geothermal,665
+HI,Hydropower,318
+HI,Solar Energy,8985
+HI,Wind Energy,2164
+IA,Biomass,265747
 IA,Geothermal,1281
 IA,Hydropower,3235
 IA,Solar Energy,3146
@@ -69,11 +69,11 @@ ID,Geothermal,1804
 ID,Hydropower,28585
 ID,Solar Energy,3749
 ID,Wind Energy,7915
-il,Biomass,155910
-il,Geothermal,2042
-il,Hydropower,314
-il,Solar Energy,13028
-il,Wind Energy,74409
+IL,Biomass,155910
+IL,Geothermal,2042
+IL,Hydropower,314
+IL,Solar Energy,13028
+IL,Wind Energy,74409
 IN,Biomass,128816
 IN,Geothermal,4647
 IN,Hydropower,1582
@@ -94,11 +94,11 @@ LA,Geothermal,1842
 LA,Hydropower,2414
 LA,Solar Energy,2113
 LA,Wind Energy,0
-ma,Biomass,56272
-ma,Geothermal,859
-ma,Hydropower,3976
-ma,Solar Energy,19833
-ma,Wind Energy,620
+MA,Biomass,56272
+MA,Geothermal,859
+MA,Hydropower,3976
+MA,Solar Energy,19833
+MA,Wind Energy,620
 MD,Biomass,37140
 MD,Geothermal,570
 MD,Hydropower,6309
@@ -114,11 +114,11 @@ MI,Geothermal,5193
 MI,Hydropower,4760
 MI,Solar Energy,5851
 MI,Wind Energy,28294
-Mn,Biomass,162640
-Mn,Geothermal,1075
-Mn,Hydropower,2560
-Mn,Solar Energy,8462
-Mn,Wind Energy,49127
+MN,Biomass,162640
+MN,Geothermal,1075
+MN,Hydropower,2560
+MN,Solar Energy,8462
+MN,Wind Energy,49127
 MO,Biomass,61275
 MO,Geothermal,352
 MO,Hydropower,2679
@@ -129,11 +129,11 @@ MS,Geothermal,958
 MS,Hydropower,0
 MS,Solar Energy,2253
 MS,Wind Energy,0
-mt,Biomass,11496
-mt,Geothermal,337
-mt,Hydropower,29999
-mt,Solar Energy,1089
-mt,Wind Energy,15548
+MT,Biomass,11496
+MT,Geothermal,337
+MT,Hydropower,29999
+MT,Solar Energy,1089
+MT,Wind Energy,15548
 NC,Biomass,127660
 NC,Geothermal,967
 NC,Hydropower,14417
@@ -144,21 +144,21 @@ ND,Geothermal,978
 ND,Hydropower,7230
 ND,Solar Energy,12
 ND,Wind Energy,49395
-ne,Biomass,118507
-ne,Geothermal,1212
-ne,Hydropower,3900
-ne,Solar Energy,468
-ne,Wind Energy,40416
+NE,Biomass,118507
+NE,Geothermal,1212
+NE,Hydropower,3900
+NE,Solar Energy,468
+NE,Wind Energy,40416
 NH,Biomass,31020
 NH,Geothermal,29
 NH,Hydropower,5431
 NH,Solar Energy,1105
 NH,Wind Energy,1404
-nj,Biomass,55964
-nj,Geothermal,466
-nj,Hydropower,40
-nj,Solar Energy,17876
-nj,Wind Energy,63
+NJ,Biomass,55964
+NJ,Geothermal,466
+NJ,Hydropower,40
+NJ,Solar Energy,17876
+NJ,Wind Energy,63
 NM,Biomass,17018
 NM,Geothermal,490
 NM,Hydropower,368
@@ -169,21 +169,21 @@ NV,Geothermal,15709
 NV,Hydropower,4500
 NV,Solar Energy,39902
 NV,Wind Energy,994
-ny,Biomass,135868
-ny,Geothermal,1185
-ny,Hydropower,97017
-ny,Solar Energy,22521
-ny,Wind Energy,16377
+NY,Biomass,135868
+NY,Geothermal,1185
+NY,Hydropower,97017
+NY,Solar Energy,22521
+NY,Wind Energy,16377
 OH,Biomass,131879
 OH,Geothermal,3435
 OH,Hydropower,1730
 OH,Solar Energy,6420
 OH,Wind Energy,9620
-ok,Biomass,53151
-ok,Geothermal,24
-ok,Hydropower,5062
-ok,Solar Energy,856
-ok,Wind Energy,126286
+OK,Biomass,53151
+OK,Geothermal,24
+OK,Hydropower,5062
+OK,Solar Energy,856
+OK,Wind Energy,126286
 OR,Biomass,104208
 OR,Geothermal,1833
 OR,Hydropower,89835
@@ -194,11 +194,11 @@ PA,Geothermal,2162
 PA,Hydropower,9497
 PA,Solar Energy,5491
 PA,Wind Energy,11117
-ri,Biomass,9375
-ri,Geothermal,57
-ri,Hydropower,26
-ri,Solar Energy,3545
-ri,Wind Energy,576
+RI,Biomass,9375
+RI,Geothermal,57
+RI,Hydropower,26
+RI,Solar Energy,3545
+RI,Wind Energy,576
 SC,Biomass,122864
 SC,Geothermal,648
 SC,Hydropower,7504
@@ -214,11 +214,11 @@ TN,Geothermal,213
 TN,Hydropower,27438
 TN,Solar Energy,3557
 TN,Wind Energy,55
-tx,Biomass,266309
-tx,Geothermal,2478
-tx,Hydropower,2586
-tx,Solar Energy,110891
-tx,Wind Energy,408946
+TX,Biomass,266309
+TX,Geothermal,2478
+TX,Hydropower,2586
+TX,Solar Energy,110891
+TX,Wind Energy,408946
 UT,Biomass,15792
 UT,Geothermal,2371
 UT,Hydropower,2624
@@ -229,26 +229,26 @@ VA,Geothermal,1701
 VA,Hydropower,4745
 VA,Solar Energy,21455
 VA,Wind Energy,160
-vt,Biomass,14207
-vt,Geothermal,29
-vt,Hydropower,5252
-vt,Solar Energy,1562
-vt,Wind Energy,1159
-wa,Biomass,126267
-wa,Geothermal,1136
-wa,Hydropower,209653
-wa,Solar Energy,3140
-wa,Wind Energy,25759
+VT,Biomass,14207
+VT,Geothermal,29
+VT,Hydropower,5252
+VT,Solar Energy,1562
+VT,Wind Energy,1159
+WA,Biomass,126267
+WA,Geothermal,1136
+WA,Hydropower,209653
+WA,Solar Energy,3140
+WA,Wind Energy,25759
 WI,Biomass,132268
 WI,Geothermal,615
 WI,Hydropower,6571
 WI,Solar Energy,5581
 WI,Wind Energy,5930
-wv,Biomass,15773
-wv,Geothermal,32
-wv,Hydropower,5221
-wv,Solar Energy,214
-wv,Wind Energy,7129
+WV,Biomass,15773
+WV,Geothermal,32
+WV,Hydropower,5221
+WV,Solar Energy,214
+WV,Wind Energy,7129
 WY,Biomass,4521
 WY,Geothermal,663
 WY,Hydropower,3130

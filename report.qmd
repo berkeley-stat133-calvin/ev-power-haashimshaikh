@@ -8,23 +8,266 @@ format: typst
 ## **Part 0: libraries**
 
 ```{r}
+library(tidyverse)
+#assigning variable names to given data files#
+renew_21 <- read_csv("data/renew-use-2021.csv")
+renew_22 <- read_csv("data/renew-use-2022.csv")
+renew_23 <- read_csv("data/renew-use-2023.csv")
+
+total_21 <- read_csv("data/total-use-2021.csv")
+total_22 <- read_csv("data/total-use-2022.csv")
+total_23 <- read_csv("data/total-use-2023.csv")
+
+energy_price <- read_csv("data/av-energy-price-2021-2023.csv")
+ev_reg <- read_csv("data/ev-registrations-by-state-2023.csv")
+
 
 ```
 
 ## **Part 1:** **Defining Research Question**
 
-Chosen Question:
+Chosen Question: How does the Midwest compare to the West Coast in renewable energy share and EV adoption?
 
 ## **Part 2: Data Preparation and Cleaning**
 
 ```{r}
+#starting the data standardization#
+#first standardizing total_2... file column names#
 
+total_files <- list.files(
+  "data",
+  pattern = "^total-use-20.*\\.csv$",
+  full.names = TRUE
+)
+
+clean_energy_source <- function(x) {
+  x <- x |>
+    str_to_lower() |>
+    str_remove_all("\\s*\\(.*\\)") |>
+    str_remove_all("[^a-z]") |>
+    str_trim()
+  case_when(
+    str_detect(x, "coal") ~ "coal",
+    str_detect(x, "natural") ~ "natural_gas",
+    str_detect(x, "petroleum") ~ "petroleum",
+    str_detect(x, "nuclear") ~ "nuclear",
+    str_detect(x, "total") & str_detect(x, "renew") ~ "total_renewable",
+    TRUE ~ x
+  )
+}
+
+walk(total_files, function(f) {
+  df <- read_csv(f, show_col_types = FALSE)
+  df <- df |> mutate(Energy_Source = clean_energy_source(Energy_Source))
+  write_csv(df, f)
+})
+
+# Reload the data after cleaning#
+total_21 <- read_csv("data/total-use-2021.csv")
+total_22 <- read_csv("data/total-use-2022.csv")
+total_23 <- read_csv("data/total-use-2023.csv")
+
+head(total_21)
+
+# Now clean renewable energy files#
+renew_files <- list.files(
+  "data",
+  pattern = "^renew-use-20.*\\.csv$",
+  full.names = TRUE
+)
+
+walk(renew_files, function(f) {
+  df <- read_csv(f, show_col_types = FALSE)
+
+  # State to uppercase #
+  df <- df |> mutate(State = str_to_upper(State))
+
+  # Clean the renewable use values remove all non-numeric characters except decimal points #
+  value_col <- names(df)[3] # The third column #
+  df <- df |>
+    mutate(across(
+      all_of(value_col),
+      ~ as.numeric(str_remove_all(., "[^0-9.]"))
+    ))
+
+  write_csv(df, f)
+})
+
+# Reload the renewable data#
+renew_21 <- read_csv("data/renew-use-2021.csv")
+renew_22 <- read_csv("data/renew-use-2022.csv")
+renew_23 <- read_csv("data/renew-use-2023.csv")
+
+head(renew_21)
+
+# Clean energy price file#
+energy_price_raw <- read_lines("data/av-energy-price-2021-2023.csv")
+energy_price_data <- energy_price_raw[4:length(energy_price_raw)] # Skip first 3 lines $ per BTU, ,,, , and State,2021,...#
+
+energy_price <- map_dfr(energy_price_data, function(line) {
+  # Remove outer quotes and split by comma
+  clean_line <- str_remove_all(line, "^\"|\"$")
+  parts <- str_split(clean_line, ",")[[1]]
+
+  tibble(
+    State = parts[1],
+    price_2021 = if (length(parts) > 1) parts[2] else NA_character_,
+    price_2022 = if (length(parts) > 2) parts[3] else NA_character_,
+    price_2023 = if (length(parts) > 3) parts[4] else NA_character_
+  )
+})
+
+# Clean the data#
+energy_price <- energy_price |>
+  mutate(
+    State = str_to_upper(State),
+    across(starts_with("price_"), ~ as.numeric(str_remove_all(., "[^0-9.]")))
+  )
+
+head(energy_price)
+
+# Clean EV registrations file#
+ev_reg <- read_csv(
+  "data/ev-registrations-by-state-2023.csv",
+  skip = 2,
+  show_col_types = FALSE
+) #Skips Title and NULL#
+ev_reg <- ev_reg |>
+  rename(State = 1, EV_Count = 2) |>
+  mutate(
+    State = str_to_upper(State),
+    EV_Count = as.numeric(str_remove_all(EV_Count, "[^0-9]"))
+  )
+
+head(ev_reg)
 ```
 
 ## **Part 3: Joining / Pivoting Datasets for Analysis**
 
 ```{r}
+# Helper to pivot total energy for a given year
+pivot_total_year <- function(df, year) {
+  df |>
+    pivot_longer(
+      cols = -Energy_Source,
+      names_to = "State",
+      values_to = "Energy_Use"
+    ) |>
+    filter(State != "US") |>
+    mutate(Year = year)
+}
 
+# 1) Reshape total energy and combine years
+total_all <- bind_rows(
+  pivot_total_year(total_21, 2021),
+  pivot_total_year(total_22, 2022),
+  pivot_total_year(total_23, 2023)
+)
+
+total_wide <- total_all |>
+  pivot_wider(names_from = Energy_Source, values_from = Energy_Use) |>
+  mutate(across(
+    c(coal, natural_gas, petroleum, nuclear, total_renewable),
+    ~ replace_na(., 0)
+  ))
+
+head(total_wide)
+
+# 2) Combine renewable detail and compute yearly totals
+renew_21a <- renew_21 |> mutate(Year = 2021) |> rename(Renewable_Use = 3)
+renew_22a <- renew_22 |> mutate(Year = 2022) |> rename(Renewable_Use = 3)
+renew_23a <- renew_23 |> mutate(Year = 2023) |> rename(Renewable_Use = 3)
+
+renew_all <- bind_rows(renew_21a, renew_22a, renew_23a)
+
+renew_by_state <- renew_all |>
+  group_by(State, Year) |>
+  summarize(
+    total_renewable_calc = sum(Renewable_Use, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+head(renew_by_state)
+
+# 3) Join totals with renewables and compute renewable share
+energy_combined <- total_wide |>
+  left_join(renew_by_state, by = c("State", "Year")) |>
+  mutate(
+    renewable_total_used = coalesce(total_renewable, total_renewable_calc),
+    total_energy = coalesce(coal, 0) +
+      coalesce(natural_gas, 0) +
+      coalesce(petroleum, 0) +
+      coalesce(nuclear, 0) +
+      coalesce(total_renewable, 0),
+    renewable_pct = if_else(
+      total_energy > 0,
+      100 * renewable_total_used / total_energy,
+      NA_real_
+    )
+  )
+
+head(energy_combined)
+
+# 4) Add energy prices (pivot to long and join)
+energy_price_long <- energy_price |>
+  pivot_longer(
+    cols = starts_with("price_"),
+    names_to = "price_year",
+    values_to = "avg_price"
+  ) |>
+  mutate(Year = as.integer(str_remove(price_year, "price_"))) |>
+  select(State, Year, avg_price)
+
+energy_combined <- energy_combined |>
+  left_join(energy_price_long, by = c("State", "Year"))
+
+# 5) Add EV registrations (2023 only)
+energy_combined <- energy_combined |>
+  left_join(ev_reg |> rename(EV_Count_2023 = EV_Count), by = "State") |>
+  mutate(EV_Count = if_else(Year == 2023, EV_Count_2023, NA_real_)) |>
+  select(-EV_Count_2023)
+
+# 6) Define regions
+midwest_states <- c(
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "MI",
+  "MN",
+  "MO",
+  "NE",
+  "ND",
+  "OH",
+  "SD",
+  "WI"
+)
+west_coast_states <- c("CA", "OR", "WA")
+
+energy_combined <- energy_combined |>
+  mutate(
+    Region = case_when(
+      State %in% midwest_states ~ "Midwest",
+      State %in% west_coast_states ~ "West Coast",
+      TRUE ~ "Other"
+    )
+  )
+
+head(energy_combined)
+
+# 7) Region-year summary for the research question
+region_summary <- energy_combined |>
+  filter(Region %in% c("Midwest", "West Coast")) |>
+  group_by(Region, Year) |>
+  summarize(
+    avg_renewable_pct = mean(renewable_pct, na.rm = TRUE),
+    avg_energy_price = mean(avg_price, na.rm = TRUE),
+    total_ev_count = sum(EV_Count, na.rm = TRUE),
+    n_states = dplyr::n(),
+    .groups = "drop"
+  )
+
+region_summary
 ```
 
 ## **Part 4: Mapping Visualization**
